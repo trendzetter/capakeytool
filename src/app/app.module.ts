@@ -5,10 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppComponent }        from './app.component';
-import { HeroDetailComponent } from './hero-detail.component'; // <-- #1 import component
-import { HeroListComponent }   from './hero-list.component';
-
-import { HeroService }         from './hero.service'; //  <-- #1 import service
 
 import { RequesterDetailComponent } from './requester-detail.component'; // <-- #1 import component
 import { RequesterListComponent }   from './requester-list.component';
@@ -33,19 +29,15 @@ import { Configuration } from './app.constants';
   ],
   declarations: [
     AppComponent,
-    HeroDetailComponent, // <-- #3 declare app component
-    HeroListComponent,
     RequesterDetailComponent,
     RequesterListComponent
   ],
   exports: [ // export for the DemoModule
     AppComponent,
-    HeroDetailComponent,
-    HeroListComponent,
     RequesterDetailComponent,
     RequesterListComponent
   ],
-  providers: [ HeroService, RequesterService, Configuration, GeoService, ToasterService, SlimLoadingBarService ], // <-- #4 provide HeroService
+  providers: [ RequesterService, Configuration, GeoService, ToasterService, SlimLoadingBarService ], // <-- #4 provide HeroService
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

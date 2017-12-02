@@ -1,8 +1,8 @@
 {
-  "name": "angular-io-example",
+  "name": "capakeytool",
   "version": "1.0.0",
   "private": true,
-  "description": "Example project from an angular.io guide.",
+  "description": "Tool to create lists of parcels capakeys from geoservices.informatievlaanderen.be/capakey/api/v1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

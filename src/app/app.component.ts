@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
   <div class="container">
-    <h1>Reactive Forms</h1>
-    <app-hero-list></app-hero-list>
+    <h1>Capakey Tool</h1>
+    <app-requester-list></app-requester-list>
   </div>`
 })
 export class AppComponent { }

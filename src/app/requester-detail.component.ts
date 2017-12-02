@@ -5,7 +5,7 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 
-import { Parcel, Requester, states, Municipality, Department, MunicipalitiesData, DepartmentsData, SectionData, ParcelData, Section } from './data-model';
+import { Parcel, Requester, Municipality, Department, MunicipalitiesData, DepartmentsData, SectionData, ParcelData, Section } from './data-model';
 import { RequesterService }           from './requester.service';
 import { GeoService } from './geo.service';
 
@@ -18,7 +18,6 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
 
   requesterForm: FormGroup;
   nameChangeLog: string[] = [];
-  states = states;
   public message: string;
   public municipalities: Municipality[];
   public departments: Department[];
