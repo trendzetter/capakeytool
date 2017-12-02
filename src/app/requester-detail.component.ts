@@ -97,6 +97,7 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
   }
 
   municipalitySelected(event: Municipality) {
+    this.requesterForm.markAsDirty();
     this.geoService
     .getDepartments<DepartmentsData>(event.municipalityCode)
     .subscribe((data: DepartmentsData) => this.departments = data.departments,
