@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToasterService, ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+//import { Angular2Csv } from           'angular2-csv/Angular2-csv';
 
 import { Configuration } from './app.constants';
 

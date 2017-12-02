@@ -1,10 +1,4 @@
 <form [formGroup]="requesterForm" (ngSubmit)="onSubmit()" novalidate>
-  <div style="margin-bottom: 1em">
-    <button type="submit"
-            [disabled]="requesterForm.pristine" class="btn btn-success">Opslaan</button> &nbsp;
-    <button type="reset" (click)="revert()"
-            [disabled]="requesterForm.pristine" class="btn btn-danger">Revert</button>
-  </div>
 
   <!-- Requester Detail Controls -->
   <div class="form-group">

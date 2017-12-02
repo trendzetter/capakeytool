@@ -2,7 +2,7 @@
 <h3 *ngIf="!isLoading">Kies een aanvrager:</h3>
 
 <nav>
-  <button (click)="getRequesters()" class="btn btn-primary">Refresh</button>
+  <button (click)="export()" class="btn btn-primary">Export</button>
   <button (click)="addRequester()" class="btn btn-primary">Aanvrager toevoegen</button>
   <a *ngFor="let requester of requesters | async" (click)="select(requester)">{{requester.name}}</a>
 </nav>

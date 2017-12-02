@@ -17,7 +17,6 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
   @Input() requester: Requester;
 
   requesterForm: FormGroup;
-  nameChangeLog: string[] = [];
   public message: string;
   public municipalities: Municipality[];
   public departments: Department[];
@@ -27,6 +26,7 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
   private department: string;
   private section: string;
   private capakey: string;
+  private currentRequester: number;
 
   constructor(
     private fb: FormBuilder,
@@ -37,7 +37,6 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
     private _sanitizer: DomSanitizer) {
 
     this.createForm();
-    this.logNameChange();
   }
 
   autocompleMunicipalityFormatter = (data: any) : SafeHtml => {
@@ -141,14 +140,18 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
+    if(this.currentRequester){
+      this.requesterService.updateRequester(this.prepareSaveRequester()).subscribe();
+    }
+
     this.requesterForm.reset({
       name: this.requester.name,
       street: this.requester.street,
       city: this.requester.city,
       zip: this.requester.zip
     });
-    console.log(JSON.stringify(this.requester));
     this.setParcels(this.requester.parcels);
+    this.currentRequester = this.requester.id;
   }
 
   get parcelArray(): FormArray {
@@ -165,11 +168,11 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
     this.parcelArray.push(this.fb.group(new Parcel()));
   }
 
-  onSubmit() {
-    this.requester = this.prepareSaveRequester();
-    this.requesterService.updateRequester(this.requester).subscribe(/* error handling */);
+ /* onSubmit() {
+    let requester = this.prepareSaveRequester();
+    this.requesterService.updateRequester(requester).subscribe();
     this.ngOnChanges();
-  }
+} */
 
   prepareSaveRequester(): Requester {
     const formModel = this.requesterForm.value;
@@ -182,7 +185,7 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
     // return new `Requester` object containing a combination of original requester value(s)
     // and deep copies of changed form model municipalities
     const saveRequester: Requester = {
-      id: this.requester.id,
+      id: this.currentRequester,
       name: formModel.name as string,
       street : formModel.street as string,
       city : formModel.city as string,
@@ -195,10 +198,4 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
 
   revert() { this.ngOnChanges(); }
 
-  logNameChange() {
-    const nameControl = this.requesterForm.get('name');
-    nameControl.valueChanges.forEach(
-      (value: string) => this.nameChangeLog.push(value)
-    );
-  }
 }
