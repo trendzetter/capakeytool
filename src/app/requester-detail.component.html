@@ -1,0 +1,97 @@
+<toaster-container></toaster-container>
+<form [formGroup]="requesterForm" (ngSubmit)="onSubmit()" novalidate>
+  <div style="margin-bottom: 1em">
+    <button type="submit"
+            [disabled]="requesterForm.pristine" class="btn btn-success">Opslaan</button> &nbsp;
+    <button type="reset" (click)="revert()"
+            [disabled]="requesterForm.pristine" class="btn btn-danger">Revert</button>
+  </div>
+
+  <!-- Requester Detail Controls -->
+  <div class="form-group">
+      <label class="center-block">Naam:
+        <input class="form-control" formControlName="name">
+      </label>
+      <label class="center-block">Straat:
+        <input class="form-control" formControlName="street">
+      </label>
+      <label class="center-block">Postcode:
+        <input class="form-control" formControlName="zip">
+      </label>
+      <label class="center-block">Gemeente:
+        <input class="form-control" formControlName="city">
+      </label>
+  </div>
+
+  <div formArrayName="parcelArray" class="well well-lg">
+    <div *ngFor="let parcel of parcelArray.controls; let i=index" [formGroupName]="i" >
+      <!-- The repeated address template -->
+      <h4>Perceel #{{i + 1}}</h4>
+      <div style="margin-left: 1em;">
+        <div class="form-group">
+          <label class="center-block">Gemeente:
+            <input ngui-auto-complete
+                   (valueChanged)="municipalitySelected($event)"
+                   [source]="municipalities"
+                   [list-formatter]="autocompleMunicipalityFormatter"
+                   value-property-name="municipalityCode"
+                   display-property-name="municipalityName"
+                   placeholder="Gemeenten" class="form-control" formControlName="municipality">
+          </label>
+        </div>
+        <div class="form-group">
+          <label class="center-block">Afdeling:
+            <input ngui-auto-complete
+                   (valueChanged)="departmentSelected($event)"
+                   [source]="departments"
+                   [list-formatter]="autocompleDepartmentFormatter"
+                   value-property-name="departmentCode"
+                   display-property-name="departmentName"
+                   placeholder="Afdelingen" class="form-control" formControlName="department">
+          </label>
+        </div>
+        <div class="form-group">
+          <label class="center-block">Sectie:
+            <input ngui-auto-complete
+                   (valueChanged)="sectionSelected($event)"
+                   [source]="sections"
+                   [list-formatter]="autocompleSectionFormatter"
+                   value-property-name="sectionCode"
+                   display-property-name="sectionCode"
+                   placeholder="Secties" class="form-control" formControlName="section">
+          </label>
+        </div>
+        <div class="form-group">
+          <label class="center-block">Perceel:
+            <input ngui-auto-complete
+                   (valueChanged)="parcelSelected($event)"
+                   [source]="parcels"
+                   [list-formatter]="autocompleParcelFormatter"
+                   value-property-name="capakey"
+                   display-property-name="perceelnummer"
+                   placeholder="Percelen" class="form-control" formControlName="capakey">
+          </label>
+        </div>
+      </div>
+      <br>
+      <!-- End of the repeated address template -->
+    </div>
+    <button (click)="addParcel()" type="button">Add parcel</button>
+  </div>
+ <!-- <div class="form-group radio">
+    <h4>Super power:</h4>
+    <label class="center-block"><input type="radio" formControlName="power" value="flight">Flight</label>
+    <label class="center-block"><input type="radio" formControlName="power" value="x-ray vision">X-ray vision</label>
+    <label class="center-block"><input type="radio" formControlName="power" value="strength">Strength</label>
+  </div>
+  <div class="checkbox">
+    <label class="center-block">
+      <input type="checkbox" formControlName="sidekick">I have a sidekick.
+    </label>
+  </div>-->
+</form>
+
+<p>requesterForm value: {{ requesterForm.value | json}}</p>
+
+<h4>Name change log</h4>
+<div *ngFor="let name of nameChangeLog">{{name}}</div>

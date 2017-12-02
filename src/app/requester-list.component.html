@@ -1,0 +1,15 @@
+<h3 *ngIf="isLoading"><i>Loading requesters ... </i></h3>
+<h3 *ngIf="!isLoading">Select a requester:</h3>
+
+<nav>
+  <button (click)="getRequesters()" class="btn btn-primary">Refresh</button>
+  <button (click)="addRequester()" class="btn btn-primary">Add requester</button>
+  <a *ngFor="let requester of requesters | async" (click)="select(requester)">{{requester.name}}</a>
+</nav>
+
+<div *ngIf="selectedRequester">
+  <hr>
+  <h2>Requester Detail</h2>
+  <h3>Editing: {{selectedRequester.name}}</h3>
+  <app-requester-detail [requester]="selectedRequester"></app-requester-detail>
+</div>
