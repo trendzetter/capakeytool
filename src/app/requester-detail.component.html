@@ -1,8 +1,7 @@
-<toaster-container></toaster-container>
 <form [formGroup]="requesterForm" (ngSubmit)="onSubmit()" novalidate>
   <div style="margin-bottom: 1em">
     <button type="submit"
-            [disabled]="requesterForm.pristine" class="btn btn-success">Opslaan</button> &nbsp;
+            [disabled]="requesterForm.pristine && parcelArray.pristine" class="btn btn-success">Opslaan</button> &nbsp;
     <button type="reset" (click)="revert()"
             [disabled]="requesterForm.pristine" class="btn btn-danger">Revert</button>
   </div>
@@ -23,7 +22,7 @@
       </label>
   </div>
 
-  <div formArrayName="parcelArray" class="well well-lg">
+  <div class="form-control" formArrayName="parcelArray" class="well well-lg">
     <div *ngFor="let parcel of parcelArray.controls; let i=index" [formGroupName]="i" >
       <!-- The repeated address template -->
       <h4>Perceel #{{i + 1}}</h4>
@@ -78,19 +77,9 @@
     </div>
     <button (click)="addParcel()" type="button">Perceel toevoegen</button>
   </div>
- <!-- <div class="form-group radio">
-    <h4>Super power:</h4>
-    <label class="center-block"><input type="radio" formControlName="power" value="flight">Flight</label>
-    <label class="center-block"><input type="radio" formControlName="power" value="x-ray vision">X-ray vision</label>
-    <label class="center-block"><input type="radio" formControlName="power" value="strength">Strength</label>
-  </div>
-  <div class="checkbox">
-    <label class="center-block">
-      <input type="checkbox" formControlName="sidekick">I have a sidekick.
-    </label>
-  </div>-->
 </form>
-
+<ng2-slim-loading-bar></ng2-slim-loading-bar>
+<toaster-container></toaster-container>
 <p>requesterForm value: {{ requesterForm.value | json}}</p>
 
 <h4>Name change log</h4>

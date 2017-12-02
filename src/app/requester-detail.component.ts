@@ -113,7 +113,19 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+    this.geoService
+    .getMunicipalities<MunicipalitiesData>()
+    .subscribe((data: MunicipalitiesData) => this.municipalities = data.municipalities,
+    error => () => {
+      console.log('this.municipals'+JSON.stringify(this.municipalities));
+      this.toasterService.pop('error', 'Damn', 'Something went wrong...');
+    },
+    () => {
+      console.log('this.municipals'+JSON.stringify(this.municipalities));
+      this.toasterService.pop('success', 'Complete', 'Getting all values complete');
+      this.slimLoadingBarService.complete();
 
+    });
   }
 
 
@@ -149,19 +161,6 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
   }
 
   addParcel() {
-    this.geoService
-    .getMunicipalities<MunicipalitiesData>()
-    .subscribe((data: MunicipalitiesData) => this.municipalities = data.municipalities,
-    error => () => {
-      console.log('this.municipals'+JSON.stringify(this.municipalities));
-      this.toasterService.pop('error', 'Damn', 'Something went wrong...');
-    },
-    () => {
-      console.log('this.municipals'+JSON.stringify(this.municipalities));
-      this.toasterService.pop('success', 'Complete', 'Getting all values complete');
-      this.slimLoadingBarService.complete();
-
-    });
     this.parcelArray.push(this.fb.group(new Parcel()));
   }
 
