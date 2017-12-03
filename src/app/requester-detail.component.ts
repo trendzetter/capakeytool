@@ -5,7 +5,7 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 
 
-import { Parcel, Requester, Municipality, Department, MunicipalitiesData, DepartmentsData, SectionData, ParcelData, Section } from './data-model';
+import { Parcel, Requester, Municipality, Department, MunicipalitiesData, DepartmentsData, SectionData, ParcelData, Section, requesters } from './data-model';
 import { RequesterService }           from './requester.service';
 import { GeoService } from './geo.service';
 
@@ -60,10 +60,14 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
   }
 
   parcelSelected(event: Parcel) {
+    if(!event.capakey) return;
+        console.log('capakey: '+ event.capakey);
     this.capakey = event.capakey;
   }
 
-  sectionSelected(event: Section) {
+  sectionSelected(event: Section, i: number) {
+    if(!event.sectionCode) return;
+    console.log('sectionCode: '+ event.sectionCode);
     this.geoService
     .getParcels<ParcelData>(event.sectionCode,this.department, this.municipality)
     .subscribe((data: ParcelData) => this.parcels = data.parcels,
@@ -75,11 +79,14 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
       console.log('this.departments'+JSON.stringify(this.departments));
       this.toasterService.pop('success', 'Complete', 'Getting all values complete');
       this.slimLoadingBarService.complete();
+      this.parcelArray.at(i).get('capakey').enable();
     });
     this.section = event.sectionCode;
   }
 
-  departmentSelected(event: Department) {
+  departmentSelected(event: Department, i: number) {
+    if(!event.departmentCode) return;
+    console.log('departmentCode: '+ event.departmentCode);
     this.geoService
     .getSections<SectionData>(event.departmentCode, this.municipality)
     .subscribe((data: SectionData) => this.sections = data.sections,
@@ -91,25 +98,32 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
       console.log('this.departments'+JSON.stringify(this.departments));
       this.toasterService.pop('success', 'Complete', 'Getting all values complete');
       this.slimLoadingBarService.complete();
+      this.parcelArray.at(i).get('section').enable();
+      this.parcelArray.at(i).get('capakey').disable();
     });
     this.department = event.departmentCode;
+    this.parcels = null;
   }
 
-  municipalitySelected(event: Municipality) {
-    this.requesterForm.markAsDirty();
+  municipalitySelected(event: Municipality, i: number) {
+    if(!event.municipalityCode) return;
+    console.log('municipality: '+ event.municipalityCode);
     this.geoService
     .getDepartments<DepartmentsData>(event.municipalityCode)
     .subscribe((data: DepartmentsData) => this.departments = data.departments,
     error => () => {
-      console.log('this.departments'+JSON.stringify(this.departments));
       this.toasterService.pop('error', 'Damn', 'Something went wrong...');
     },
     () => {
-      console.log('this.departments'+JSON.stringify(this.departments));
       this.toasterService.pop('success', 'Complete', 'Getting all values complete');
       this.slimLoadingBarService.complete();
+      this.parcelArray.at(i).get('department').enable();
+      this.parcelArray.at(i).get('section').disable();
+      this.parcelArray.at(i).get('capakey').disable();
     });
     this.municipality = event.municipalityCode;
+    this.sections = null;
+    this.parcels = null;
   }
 
   ngOnInit() {
@@ -165,28 +179,28 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
   }
 
   addParcel() {
-  //  this.fixCapaKey();
-    this.parcelArray.push(this.fb.group(new Parcel()));
-  }
+    console.log('addparcel!')
+    let group = this.fb.group(new Parcel());
+    group.disable();
 
- /* onSubmit() {
-    let requester = this.prepareSaveRequester();
-    this.requesterService.updateRequester(requester).subscribe();
-    this.ngOnChanges();
-} */
+    if(group.get('municipality')){
+      group.get('municipality').enable();
+    }
 
-  fixCapaKey():void{
-    const formModel = this.requesterForm.value;
-    formModel.parcelArray[formModel.parcelArray.length].capakey= formModel.parcelArray[formModel.parcelArray.length].capakey.capakey;
+    this.parcelArray.push(group);
   }
 
   prepareSaveRequester(): Requester {
     const formModel = this.requesterForm.value;
 
-    // deep copy of form model lairs
-    const parcelArrayDeepCopy: Parcel[] = formModel.parcelArray.map(
-      (parcel: Parcel) => Object.assign({}, parcel)
-    );
+    //retain only the parcels that have all info
+    let parcelArrayDeepCopy: Parcel[] = [];
+    formModel.parcelArray.forEach((parcel: Parcel) =>  {
+      if(parcel.capakey) {
+        console.log('capakey: '+parcel.capakey);
+        parcelArrayDeepCopy.push(parcel);
+      }
+    });
 
     // return new `Requester` object containing a combination of original requester value(s)
     // and deep copies of changed form model municipalities
@@ -201,7 +215,5 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
     };
     return saveRequester;
   }
-
-  revert() { this.ngOnChanges(); }
 
 }

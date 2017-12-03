@@ -24,7 +24,7 @@
         <div class="form-group">
           <label class="center-block">Gemeente:
             <input ngui-auto-complete
-                   (valueChanged)="municipalitySelected($event)"
+                   (valueChanged)="municipalitySelected($event, i)"
                    [source]="municipalities"
                    [list-formatter]="autocompleMunicipalityFormatter"
                    value-property-name="municipalityCode"
@@ -35,7 +35,7 @@
         <div class="form-group">
           <label class="center-block">Afdeling:
             <input ngui-auto-complete
-                   (valueChanged)="departmentSelected($event)"
+                   (valueChanged)="departmentSelected($event, i)"
                    [source]="departments"
                    [list-formatter]="autocompleDepartmentFormatter"
                    value-property-name="departmentCode"
@@ -46,7 +46,7 @@
         <div class="form-group">
           <label class="center-block">Sectie:
             <input ngui-auto-complete
-                   (valueChanged)="sectionSelected($event)"
+                   (valueChanged)="sectionSelected($event, i)"
                    [source]="sections"
                    [list-formatter]="autocompleSectionFormatter"
                    value-property-name="sectionCode"
@@ -75,6 +75,3 @@
 <ng2-slim-loading-bar></ng2-slim-loading-bar>
 <toaster-container></toaster-container>
 <p>requesterForm value: {{ requesterForm.value | json}}</p>
-
-<h4>Name change log</h4>
-<div *ngFor="let name of nameChangeLog">{{name}}</div>
