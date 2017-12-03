@@ -20,7 +20,7 @@ export class RequesterListComponent implements OnInit {
   ngOnInit() { this.getRequesters(); }
 
   addRequester() {
-    this.requesterService.addRequester();
+    this.select(this.requesterService.addRequester());
   }
 
   export() {

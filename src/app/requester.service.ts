@@ -17,13 +17,14 @@ export class RequesterService {
     return of(requesters); // simulate latency with delay
   }
 
-  addRequester(): void {
-    var requester = new Requester();
+  addRequester(): Requester {
+    let requester = new Requester();
     requester.id = this.requestIdCounter as number;
     requester.name = "Nieuwe aanvrager";
     requester.parcels = [];
     requesters.push(requester);
     this.requestIdCounter++;
+    return requester;
   }
 
   // Fake server update; assume nothing can go wrong
