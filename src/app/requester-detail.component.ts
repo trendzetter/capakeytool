@@ -165,6 +165,7 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
   }
 
   addParcel() {
+  //  this.fixCapaKey();
     this.parcelArray.push(this.fb.group(new Parcel()));
   }
 
@@ -173,6 +174,11 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
     this.requesterService.updateRequester(requester).subscribe();
     this.ngOnChanges();
 } */
+
+  fixCapaKey():void{
+    const formModel = this.requesterForm.value;
+    formModel.parcelArray[formModel.parcelArray.length].capakey= formModel.parcelArray[formModel.parcelArray.length].capakey.capakey;
+  }
 
   prepareSaveRequester(): Requester {
     const formModel = this.requesterForm.value;

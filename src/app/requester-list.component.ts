@@ -24,8 +24,16 @@ export class RequesterListComponent implements OnInit {
   }
 
   export() {
-    console.log('requersters: '+JSON.stringify(this.requesters.source));
-    new Angular2Csv(this.requesters.source.value, 'Capakey lijst');
+    let requesters: Requester[];
+    this.requesterService.getRequesters().subscribe((data: Requester[]) => requesters = data);
+    let requestersOut = [];
+    requestersOut.push(['Naam','Straat','Postcode','Gemeente','perceel_gemeente','afdeling','sectie','capakey']);
+    requesters.forEach(eachRequester => {
+      eachRequester.parcels.forEach(eachParcel => {
+        requestersOut.push([eachRequester.name, eachRequester.street,eachRequester.zip,eachRequester.city,eachParcel.municipality,eachParcel.department,eachParcel.section,eachParcel.capakey]);
+      })
+    });
+    new Angular2Csv(requestersOut, 'Capakey lijst');
   }
 
   getRequesters() {

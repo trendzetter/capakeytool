@@ -28,6 +28,11 @@ export class Section {
   sectionCode = '';
 }
 
+export class Perceel {
+  perceelnummer = '';
+  capakey = '';
+}
+
 export class MunicipalitiesData {
   municipalities: Municipality[] = []
 }
@@ -41,7 +46,7 @@ export class SectionData {
 }
 
 export class ParcelData {
-  parcels = []
+  parcels: Perceel[] = []
 }
 
 export const requesters: Requester[] = [
