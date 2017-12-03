@@ -63,6 +63,7 @@ export class RequesterDetailComponent implements OnChanges, OnInit {
     if(!event.capakey) return;
         console.log('capakey: '+ event.capakey);
     this.capakey = event.capakey;
+    this.requesterService.updateRequester(this.prepareSaveRequester()).subscribe();
   }
 
   sectionSelected(event: Section, i: number) {

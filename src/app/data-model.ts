@@ -52,10 +52,10 @@ export class ParcelData {
 export const requesters: Requester[] = [
   {
     id: 1,
-    name: 'Joris Willems',
-    street: 'Smalle heerweg 156',
-    city: 'Lochristi',
-    zip: '9080',
+    name: 'Vogelbescherming Vlaanderen',
+    street: 'Walburgstraat 37',
+    city: 'Sint-Niklaas',
+    zip: '9100',
     parcels: []
   }
 ];
